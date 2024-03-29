@@ -1,5 +1,7 @@
 from time import sleep
 from typing import List, Tuple
+import signal
+import sys
 
 class Grid:
 
@@ -32,13 +34,17 @@ class Grid:
         r, c = cell
         return self._grid[r][c] if self._is_cell_valid(r, c) else 0
 
-class Game:
+class GridGame:
 
     def __init__(self, grid=None):
         if grid:
             self._grid = grid
         else:
             self._grid = Grid(30, 30)
+
+    def _sigint_handler(self, signal, frame):
+        self._toggle_cursor()
+        sys.exit(0)
 
     def _init_state(self):
         pass
@@ -48,7 +54,7 @@ class Game:
 
     # ANSI escape sequences
     # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-    def _hide_cursor(self):
+    def _toggle_cursor(self):
         print('\033[?25l', end="")
 
     # ANSI escape sequences
@@ -57,18 +63,16 @@ class Game:
         print(f"\r\033[{lines}A", end="")
 
     def tick(self):
+        self._toggle_cursor()
+        signal.signal(signal.SIGINT, self._sigint_handler)
         self._init_state()
-        self._hide_cursor()
         while(True):
-            sleep(0.3)
             print(self._grid)
             self._cursorup(30)
             self._update_state()
-            # alive, dead = next_state(grid)
-            # grid.clear_cells(dead)
-            # grid.set_cells(alive)
+            sleep(0.3)
 
-class GameOfLife(Game):
+class GameOfLife(GridGame):
 
     def _get_live_neighbors(self, r, c):
         cells = [(r - 1, c), (r + 1, c), (r, c - 1), (r, c + 1), (r - 1, c - 1), (r - 1, c + 1), (r + 1, c - 1), (r + 1, c + 1)]
