@@ -50,7 +50,3 @@ class GameOfLife(GridGame):
         alive, dead = self._next_state()
         self._grid.clear_cells(dead)
         self._grid.set_cells(alive)
-
-
-
-GameOfLife().tick()
