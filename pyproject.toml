@@ -1,0 +1,6 @@
+[project]
+name = "snid"
+version = "0.0.1"
+dependencies = []
+[project.scripts]
+snid="snid.cli.cli:main"
