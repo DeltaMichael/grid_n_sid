@@ -123,9 +123,13 @@ class Tetris(GridGame):
     def _init_state(self):
         self._mid = self._grid._w // 2
         self._all_tetrimos = [T]
+        # press h to move left
         add_hotkey(4, self._move_tetrimo_left)
+        # press l to move left
         add_hotkey(37, self._move_tetrimo_right)
+        # press j to accelerate
         add_hotkey(38, self._update_state)
+        # press space to rotate
         add_hotkey('space', self._rotate_tetrimo)
         self.tetrimo(0, self._mid)
 
