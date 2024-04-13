@@ -3,6 +3,7 @@ from typing import List, Tuple
 import signal
 import sys
 
+
 class Grid:
 
     def __init__(self, w, h):
@@ -17,10 +18,10 @@ class Grid:
         return "\n".join([" ".join(map(lambda x: ' ' if x == 0 else '◼', row)) for row in self._grid])
 
     def _is_cell_valid(self, r, c):
-        return r >= 0 and r < self._h and c >=0 and c < self._w
+        return r >= 0 and r < self._h and c >= 0 and c < self._w
 
     def _update_cells(self, cells, value):
-        for r,c in cells:
+        for r, c in cells:
             if self._is_cell_valid(r, c):
                 self._grid[r][c] = value
 
@@ -33,6 +34,7 @@ class Grid:
     def get_cell_value(self, cell):
         r, c = cell
         return self._grid[r][c] if self._is_cell_valid(r, c) else 0
+
 
 class GridGame:
 
@@ -47,6 +49,9 @@ class GridGame:
         sys.exit(0)
 
     def _init_state(self):
+        pass
+
+    def _read_controls(self):
         pass
 
     def _update_state(self):
@@ -66,8 +71,9 @@ class GridGame:
         self._toggle_cursor()
         signal.signal(signal.SIGINT, self._sigint_handler)
         self._init_state()
-        while(True):
+        while (True):
             print(self._grid)
             self._cursorup(30)
+            self._read_controls()
             self._update_state()
             sleep(0.3)
