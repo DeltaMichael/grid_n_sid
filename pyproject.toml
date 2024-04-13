@@ -1,6 +1,6 @@
 [project]
 name = "snid"
 version = "0.0.1"
-dependencies = ["argparse"]
+dependencies = ["argparse", "keyboard"]
 [project.scripts]
 snid="snid.cli:main"
