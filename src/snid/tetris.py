@@ -94,13 +94,25 @@ class Tetris(GridGame):
         self._grid.set_cells(self._cur_tetrimo._cells)
 
     def _move_tetrimo_left(self):
-        self._grid.clear_cells(self._cur_tetrimo._cells)
+        prev_cells = self._cur_tetrimo._cells
         self._cur_tetrimo.move_left()
+        for y, x in self._cur_tetrimo._cells:
+            # TODO: Check if side edges have reached blocks
+            if not self._grid._is_cell_valid(y, x):
+                self._cur_tetrimo.move_right()
+                return
+        self._grid.clear_cells(prev_cells)
         self._grid.set_cells(self._cur_tetrimo._cells)
 
     def _move_tetrimo_right(self):
-        self._grid.clear_cells(self._cur_tetrimo._cells)
+        prev_cells = self._cur_tetrimo._cells
         self._cur_tetrimo.move_right()
+        for y, x in self._cur_tetrimo._cells:
+            # TODO: Check if side edges have reached blocks
+            if not self._grid._is_cell_valid(y, x):
+                self._cur_tetrimo.move_left()
+                return
+        self._grid.clear_cells(prev_cells)
         self._grid.set_cells(self._cur_tetrimo._cells)
 
     def _rotate_tetrimo(self):
@@ -113,6 +125,7 @@ class Tetris(GridGame):
         self._all_tetrimos = [T]
         add_hotkey(4, self._move_tetrimo_left)
         add_hotkey(37, self._move_tetrimo_right)
+        add_hotkey(38, self._update_state)
         add_hotkey('space', self._rotate_tetrimo)
         self.tetrimo(0, self._mid)
 
