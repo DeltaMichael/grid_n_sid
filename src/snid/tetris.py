@@ -1,4 +1,4 @@
-from snid.grid_game import GridGame
+from snid.grid_game import GridGame, Grid
 from random import choice
 from keyboard import add_hotkey
 
@@ -74,6 +74,9 @@ class T(Tetrimo):
 
 
 class Tetris(GridGame):
+
+    def __init__(self):
+        super().__init__(Grid(15, 30))
 
     def tetrimo(self, y, x):
         self._template = choice(self._all_tetrimos)

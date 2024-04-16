@@ -12,10 +12,17 @@ class Grid:
         self._grid = [[0 for _ in range(self._w)] for _ in range(self._h)]
 
     def __repr__(self):
-        return "\n".join([" ".join(map(lambda x: ' ' if x == 0 else '◼', row)) for row in self._grid])
+        rows = [" ".join(map(lambda x: ' ' if x == 0 else '◼', row)) for row in self._grid]
+        bottom = " ".join(["-" for _ in range(self._w)])
+        rows.append(bottom)
+        return "\n".join(rows)
 
     def __str__(self):
-        return "\n".join([" ".join(map(lambda x: ' ' if x == 0 else '◼', row)) for row in self._grid])
+        rows = [" ".join(map(lambda x: ' ' if x == 0 else '◼', row)) for row in self._grid]
+        bottom = " ".join(["-" for _ in range(self._w)])
+        rows.append(bottom)
+        return "\n".join(rows)
+        # return "\n".join([" ".join(map(lambda x: ' ' if x == 0 else '◼', row)) for row in self._grid])
 
     def _is_cell_valid(self, r, c):
         return r >= 0 and r < self._h and c >= 0 and c < self._w
@@ -73,7 +80,7 @@ class GridGame:
         self._init_state()
         while (True):
             print(self._grid)
-            self._cursorup(30)
+            self._cursorup(self._grid._h + 1)
             self._read_controls()
             self._update_state()
             sleep(0.3)
