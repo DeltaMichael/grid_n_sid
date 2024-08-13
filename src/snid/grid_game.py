@@ -52,7 +52,7 @@ class GridGame:
             self._grid = Grid(30, 30)
 
     def _sigint_handler(self, signal, frame):
-        self._toggle_cursor()
+        self._show_cursor()
         sys.exit(0)
 
     def _init_state(self):
@@ -66,8 +66,11 @@ class GridGame:
 
     # ANSI escape sequences
     # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-    def _toggle_cursor(self):
+    def _hide_cursor(self):
         print('\033[?25l', end="")
+
+    def _show_cursor(self):
+        print('\033[?25h', end="")
 
     # ANSI escape sequences
     # https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
@@ -75,7 +78,7 @@ class GridGame:
         print(f"\r\033[{lines}A", end="")
 
     def tick(self):
-        self._toggle_cursor()
+        self._hide_cursor()
         signal.signal(signal.SIGINT, self._sigint_handler)
         self._init_state()
         while (True):
